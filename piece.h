@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QPainter>
 #include <QVector>
-#include <qdebug.h>
+#include <QDebug>
 #include "position.h"
 #include "settings.h"
 
@@ -22,33 +22,31 @@ enum class PlayerType {
     white
 };
 
+class Cell;  // forward declaration
+
 class Piece : public QObject
 {
     Q_OBJECT
 
-    PawnType type;
-
 protected:
+    PawnType type;
     bool first_move;
     QString imagePath;
     PlayerType owner;
+
 public:
     Piece(PlayerType, PawnType, QObject *parent = nullptr);
-    QString& get_path() {return imagePath;}
+    QString& get_path() { return imagePath; }
     void draw(QPainter *painter, int x, int y);
-    virtual void howToMove(QVector<Position>&)=0;
-    void moved() {first_move = false; qDebug() << first_move;}
-    PlayerType get_player_type() {return owner;}
-    PawnType get_pawn_type() {return type;}
+    virtual void howToMove(QVector<Position>&, Cell cells[8][8]) = 0;
+    void moved() { first_move = false; qDebug() << first_move; }
+    PlayerType get_player_type() { return owner; }
+    PawnType get_pawn_type() { return type; }
 
-    void vertical_and_horizontal_move(QVector<Position>&);
-    void diagonal_move(QVector<Position>&);
+    void vertical_and_horizontal_move(QVector<Position>&, Cell cells[8][8]);
+    void diagonal_move(QVector<Position>&, Cell cells[8][8]);
 
     bool IfPosCorrect(Position);
-
-
-
-signals:
 };
 
 #endif // PIECE_H

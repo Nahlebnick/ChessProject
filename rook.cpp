@@ -1,4 +1,5 @@
 #include "rook.h"
+#include "Cell.h"
 
 Rook::Rook(PlayerType player, QObject *parent)
     : Piece(player, PawnType::rook) {
@@ -6,11 +7,11 @@ Rook::Rook(PlayerType player, QObject *parent)
                     QString("D:/Programming/QT/chess/gfx/nigga_rook.png");
 }
 
-void Rook::howToMove(QVector<Position> &pos)
+void Rook::howToMove(QVector<Position> &pos, Cell cells[8][8])
 {
     if (pos.size() == 1)
     {
-        vertical_and_horizontal_move(pos);
+        vertical_and_horizontal_move(pos, cells);
     }
 }
 

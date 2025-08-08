@@ -128,7 +128,7 @@ void board::initBoard()
 
     piece_active = false;
 
-    current_player = PlayerType::white;
+    current_player = PlayerType::black;
 }
 
 void board::UndoSelection()
@@ -143,11 +143,25 @@ void board::UndoSelection()
 void board::CheckPieceMove(int curr_x, int curr_y)
 {
     qDebug() << "Фигура ходит на поле [" << curr_x << curr_y << "]";
+
+    // Если на целевой клетке есть фигура (противника), удаляем её
+    if (cells[curr_x][curr_y].m_piece != nullptr)
+    {
+        delete cells[curr_x][curr_y].m_piece;
+        cells[curr_x][curr_y].m_piece = nullptr;
+    }
+
+    // Перемещаем фигуру на новую клетку
     cells[curr_x][curr_y].m_piece = cells[m_x_selected][m_y_selected].m_piece;
     cells[curr_x][curr_y].m_piece->moved();
-    //qDebug() << m_x_selected << m_y_selected;
+
+    // Очищаем старую клетку
     cells[m_x_selected][m_y_selected].m_piece = nullptr;
+
+    // Меняем игрока
     changeCurrentPlayer();
+
+    // Снимаем выделение и очищаем возможные ходы
     UndoSelection();
 }
 
@@ -177,8 +191,8 @@ void board::SelectPiece(int curr_x, int curr_y)
             break;
         };
 
-        cells[curr_x][curr_y].m_piece->howToMove(m_posible_moves);
-        ValidateMoves();
+        cells[curr_x][curr_y].m_piece->howToMove(m_posible_moves, cells);
+        //ValidateMoves();
         for (auto x : std::as_const(m_posible_moves))
         {
             qDebug() << x.x << x.y;

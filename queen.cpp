@@ -1,4 +1,5 @@
 #include "queen.h"
+#include "Cell.h"
 
 Queen::Queen(PlayerType player, QObject *parent)
     : Piece(player, PawnType::queen) {
@@ -6,11 +7,11 @@ Queen::Queen(PlayerType player, QObject *parent)
                     QString("D:/Programming/QT/chess/gfx/black_queen.png");
 }
 
-void Queen::howToMove(QVector<Position> &pos)
+void Queen::howToMove(QVector<Position> &pos, Cell cells[8][8])
 {
     if (pos.size() == 1)
     {
-        vertical_and_horizontal_move(pos);
-        diagonal_move(pos);
+        vertical_and_horizontal_move(pos, cells);
+        diagonal_move(pos, cells);
     }
 }

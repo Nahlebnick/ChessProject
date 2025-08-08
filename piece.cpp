@@ -1,4 +1,5 @@
 #include "piece.h"
+#include "Cell.h"
 
 Piece::Piece(PlayerType player, PawnType pawn, QObject *parent) : owner(player), type(pawn), first_move(true)
 {qDebug() << "Piece created";}
@@ -8,72 +9,112 @@ void Piece::draw(QPainter *painter, int x, int y)
     painter->drawImage(x, y, QImage(imagePath));
 }
 
-void Piece::vertical_and_horizontal_move(QVector<Position> &pos)
+void Piece::vertical_and_horizontal_move(QVector<Position> &pos, Cell cells[8][8])
 {
-    //вверх
-        Position new_pos(pos[0].x, pos[0].y);
-        while(--new_pos.y >= 0)
-        {
-            pos.push_back(new_pos);
-        }
+    Position start = pos[0];
 
-        //вниз
-        new_pos.x = pos[0].x;
-        new_pos.y = pos[0].y;
-        while(++new_pos.y <= 7)
-        {
-            pos.push_back(new_pos);
+    // Вверх
+    for (int y = start.y - 1; y >= 0; y--) {
+        if (cells[start.x][y].m_piece == nullptr) {
+            pos.push_back(Position(start.x, y));
+        } else {
+            // Есть фигура
+            if (cells[start.x][y].m_piece->get_player_type() != owner) {
+                pos.push_back(Position(start.x, y)); // Можно побить
+            }
+            break; // Преграда
         }
+    }
 
-        //влево
-        new_pos.x = pos[0].x;
-        new_pos.y = pos[0].y;
-        while(--new_pos.x >= 0)
-        {
-            pos.push_back(new_pos);
+    // Вниз
+    for (int y = start.y + 1; y <= 7; y++) {
+        if (cells[start.x][y].m_piece == nullptr) {
+            pos.push_back(Position(start.x, y));
+        } else {
+            if (cells[start.x][y].m_piece->get_player_type() != owner) {
+                pos.push_back(Position(start.x, y));
+            }
+            break;
         }
+    }
 
-        //вправо
-        new_pos.x = pos[0].x;
-        new_pos.y = pos[0].y;
-        while(++new_pos.x <= 7)
-        {
-            pos.push_back(new_pos);
+    // Влево
+    for (int x = start.x - 1; x >= 0; x--) {
+        if (cells[x][start.y].m_piece == nullptr) {
+            pos.push_back(Position(x, start.y));
+        } else {
+            if (cells[x][start.y].m_piece->get_player_type() != owner) {
+                pos.push_back(Position(x, start.y));
+            }
+            break;
         }
+    }
+
+    // Вправо
+    for (int x = start.x + 1; x <= 7; x++) {
+        if (cells[x][start.y].m_piece == nullptr) {
+            pos.push_back(Position(x, start.y));
+        } else {
+            if (cells[x][start.y].m_piece->get_player_type() != owner) {
+                pos.push_back(Position(x, start.y));
+            }
+            break;
+        }
+    }
 }
 
-void Piece::diagonal_move(QVector<Position> &pos)
+
+void Piece::diagonal_move(QVector<Position> &pos, Cell cells[8][8])
 {
-        //Налево вверх
-        Position new_pos(pos[0].x, pos[0].y);
-        while(--new_pos.x >= 0 && --new_pos.y >=0)
-        {
-            pos.push_back(new_pos);
-        }
+    Position start = pos[0];
 
-        //Налево вниз
-        new_pos.x = pos[0].x;
-        new_pos.y = pos[0].y;
-        while(--new_pos.x >= 0 && ++new_pos.y <= 7)
-        {
-            pos.push_back(new_pos);
+    // Налево вверх
+    for (int x = start.x - 1, y = start.y - 1; x >= 0 && y >= 0; --x, --y) {
+        if (cells[x][y].m_piece == nullptr) {
+            pos.push_back(Position(x, y));
+        } else {
+            if (cells[x][y].m_piece->get_player_type() != owner) {
+                pos.push_back(Position(x, y));
+            }
+            break; // встречена фигура — дальше в этом направлении нельзя
         }
+    }
 
-        //Направо вверх
-        new_pos.x = pos[0].x;
-        new_pos.y = pos[0].y;
-        while(++new_pos.x <= 7 && --new_pos.y >=0)
-        {
-            pos.push_back(new_pos);
+    // Налево вниз
+    for (int x = start.x - 1, y = start.y + 1; x >= 0 && y <= 7; --x, ++y) {
+        if (cells[x][y].m_piece == nullptr) {
+            pos.push_back(Position(x, y));
+        } else {
+            if (cells[x][y].m_piece->get_player_type() != owner) {
+                pos.push_back(Position(x, y));
+            }
+            break;
         }
+    }
 
-        //Направо вниз
-        new_pos.x = pos[0].x;
-        new_pos.y = pos[0].y;
-        while (++new_pos.x <= 7 && ++new_pos.y <= 7)
-        {
-            pos.push_back(new_pos);
+    // Направо вверх
+    for (int x = start.x + 1, y = start.y - 1; x <= 7 && y >= 0; ++x, --y) {
+        if (cells[x][y].m_piece == nullptr) {
+            pos.push_back(Position(x, y));
+        } else {
+            if (cells[x][y].m_piece->get_player_type() != owner) {
+                pos.push_back(Position(x, y));
+            }
+            break;
         }
+    }
+
+    // Направо вниз
+    for (int x = start.x + 1, y = start.y + 1; x <= 7 && y <= 7; ++x, ++y) {
+        if (cells[x][y].m_piece == nullptr) {
+            pos.push_back(Position(x, y));
+        } else {
+            if (cells[x][y].m_piece->get_player_type() != owner) {
+                pos.push_back(Position(x, y));
+            }
+            break;
+        }
+    }
 }
 
 bool Piece::IfPosCorrect(Position pos)
