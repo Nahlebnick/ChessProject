@@ -19,10 +19,6 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-protected:
-    void paintEvent(QPaintEvent*);
-    void mousePressEvent(QMouseEvent* pe);
-
 private slots:
     void on_pushButton_clicked();
 

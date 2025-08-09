@@ -12,7 +12,6 @@ void Pawn::howToMove(QVector<Position> &pos, Cell cells[8][8])
     if (pos.size() == 1)
     {
         int dir = (owner == PlayerType::white) ? 1 : -1;
-        qDebug() << pos[0].x << pos[0].y;
         if (pos[0].y != 0)
         {
             Position new_pos(0, 0);
@@ -32,9 +31,8 @@ void Pawn::howToMove(QVector<Position> &pos, Cell cells[8][8])
 
             new_pos.x = pos[0].x;       //Скачок
             new_pos.y = pos[0].y-(dir*2);
-            if (IfPosCorrect(new_pos) && first_move && cells[new_pos.x][new_pos.y].m_piece == nullptr)
+            if (IfPosCorrect(new_pos) && first_move && cells[new_pos.x][new_pos.y].m_piece == nullptr && cells[new_pos.x][new_pos.y+dir].m_piece == nullptr)
             {
-                qDebug() << "First move";
                 pos.push_back(new_pos);
             }
         }

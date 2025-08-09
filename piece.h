@@ -35,11 +35,12 @@ protected:
     PlayerType owner;
 
 public:
+    bool ableToCastle;
     Piece(PlayerType, PawnType, QObject *parent = nullptr);
     QString& get_path() { return imagePath; }
     void draw(QPainter *painter, int x, int y);
     virtual void howToMove(QVector<Position>&, Cell cells[8][8]) = 0;
-    void moved() { first_move = false; qDebug() << first_move; }
+    void moved(bool f) { first_move = f;}
     PlayerType get_player_type() { return owner; }
     PawnType get_pawn_type() { return type; }
 

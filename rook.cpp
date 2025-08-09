@@ -1,10 +1,11 @@
 #include "rook.h"
 #include "Cell.h"
 
-Rook::Rook(PlayerType player, QObject *parent)
-    : Piece(player, PawnType::rook) {
+Rook::Rook(PlayerType player, QObject *parent) : Piece(player, PawnType::rook)
+{
     imagePath = (player == PlayerType::white) ? QString("D:/Programming/QT/chess/gfx/white_rook.png") :
                     QString("D:/Programming/QT/chess/gfx/nigga_rook.png");
+    ableToCastle = true;
 }
 
 void Rook::howToMove(QVector<Position> &pos, Cell cells[8][8])

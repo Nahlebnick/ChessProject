@@ -2,7 +2,9 @@
 #include "Cell.h"
 
 Piece::Piece(PlayerType player, PawnType pawn, QObject *parent) : owner(player), type(pawn), first_move(true)
-{qDebug() << "Piece created";}
+{//qDebug() << "Piece created";
+    ableToCastle = false;
+}
 
 void Piece::draw(QPainter *painter, int x, int y)
 {
