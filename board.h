@@ -39,6 +39,10 @@ class board : public QWidget
 
 public:
     explicit board(QWidget *parent = nullptr);
+    ~board();
+
+    // Новый метод для полного клонирования доски
+    void cloneBoard(Cell tmp_cells[8][8]) const;
 
 protected:
     void paintEvent(QPaintEvent *event) override;
@@ -55,7 +59,9 @@ private:
 
     void changeCurrentPlayer();
 
-    //void validateMoves();
+    bool isMoveValid(Position pos);
+
+    void validateMoves();
 };
 
 #endif // BOARD_H

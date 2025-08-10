@@ -12,6 +12,7 @@ class Cell
 public:
     Cell() {m_x = 0; m_y=0; m_color = Qt::red;}
     Cell(int x, int y, QColor color) : m_x(x), m_y(y), m_color(color), m_selected(false) {};
+    Cell(const Cell& obj) {m_x = obj.m_x; m_y = obj.m_y; m_color=obj.m_color; m_selected = obj.m_selected; m_piece = obj.m_piece;}
 
     int get_x() {return m_x;}
     int get_y() {return m_y;}
