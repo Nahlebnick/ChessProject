@@ -3,8 +3,8 @@
 
 Knight::Knight(PlayerType player, QObject *parent)
     : Piece(player, PawnType::knight) {
-    imagePath = (player == PlayerType::white) ? QString("D:/Programming/QT/chess/gfx/white_knight.png") :
-                    QString("D:/Programming/QT/chess/gfx/black_knight.png");
+    imagePath = (player == PlayerType::white) ? QString("C:/Programming/ChessProject/gfx/white_knight.png") :
+                    QString("C:/Programming/ChessProject/gfx/black_knight.png");
 }
 
 void Knight::howToMove(QVector<Position> &pos, Cell cells[8][8])

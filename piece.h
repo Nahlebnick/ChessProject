@@ -37,10 +37,17 @@ protected:
 public:
     bool ableToCastle;
     Piece(PlayerType, PawnType, QObject *parent = nullptr);
+
     QString& get_path() { return imagePath; }
     void draw(QPainter *painter, int x, int y);
     virtual void howToMove(QVector<Position>&, Cell cells[8][8]) = 0;
+
+    // Добавляем виртуальный метод clone
+    virtual Piece* clone() = 0;
+
     void moved(bool f) { first_move = f;}
+    bool isMoved() {return first_move;}
+
     PlayerType get_player_type() { return owner; }
     PawnType get_pawn_type() { return type; }
 

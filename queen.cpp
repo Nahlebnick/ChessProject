@@ -3,8 +3,8 @@
 
 Queen::Queen(PlayerType player, QObject *parent)
     : Piece(player, PawnType::queen) {
-    imagePath = (player == PlayerType::white) ? QString("D:/Programming/QT/chess/gfx/white_queen.png") :
-                    QString("D:/Programming/QT/chess/gfx/black_queen.png");
+    imagePath = (player == PlayerType::white) ? QString("C:/Programming/ChessProject/gfx/white_queen.png") :
+                    QString("C:/Programming/ChessProject/gfx/black_queen.png");
 }
 
 void Queen::howToMove(QVector<Position> &pos, Cell cells[8][8])

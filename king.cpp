@@ -3,8 +3,8 @@
 
 King::King(PlayerType player, QObject *parent) : Piece(player, PawnType::king)
 {
-    imagePath = (player == PlayerType::white) ? QString("D:/Programming/QT/chess/gfx/white_king.png") :
-                    QString("D:/Programming/QT/chess/gfx/black_king.png");
+    imagePath = (player == PlayerType::white) ? QString("C:/Programming/ChessProject/gfx/white_king.png") :
+                    QString("C:/Programming/ChessProject/gfx/black_king.png");
     ableToCastle = true;
 }
 
@@ -73,29 +73,44 @@ void King::howToMove(QVector<Position> &pos, Cell cells[8][8])
             }
         }
 
-        /*if (ableToCastle)
+        if (ableToCastle)
         {
             bool able00 = true;
-            for (int x = pos[0].x-1; x >= pos[0].x-2; x--)
+            bool able000 = true;
+            for (int x = pos[0].x+1; x <= pos[0].x+2; x++)
             {
                 if (cells[x][pos[0].y].m_piece != nullptr)
                 {
                     able00 = false;
-                    qDebug() << "Короткая рокировка невозможна!";
                     break;
                 }
             }
-            if (able00)
+
+            for (int x = pos[0].x-1; x >= pos[0].x-3; x--)
             {
-                if (cells[pos[0].x-3][pos[0].y].m_piece != nullptr && cells[pos[0].x-3][pos[0].y].m_piece->get_pawn_type() == PawnType::rook &&
-                    cells[pos[0].x-3][pos[0].y].m_piece->ableToCastle)
+                if (cells[x][pos[0].y].m_piece != nullptr)
                 {
-                    new_pos.x = pos[0].x-2;
-                    new_pos.y = pos[0].y;
-                    pos.push_back(new_pos);
-                    qDebug() << "Короткая рокировка возможна!";
+                    able000 = false;
+                    break;
                 }
             }
-        }*/
+            if (able00 && cells[pos[0].x+3][pos[0].y].m_piece != nullptr &&
+                cells[pos[0].x+3][pos[0].y].m_piece->get_pawn_type() == PawnType::rook &&
+                cells[pos[0].x+3][pos[0].y].m_piece->ableToCastle)
+            {
+                new_pos.x = pos[0].x+2;
+                new_pos.y = pos[0].y;
+                pos.push_back(new_pos);
+            }
+
+            if (able000 && cells[pos[0].x-4][pos[0].y].m_piece != nullptr &&
+                cells[pos[0].x-4][pos[0].y].m_piece->get_pawn_type() == PawnType::rook &&
+                cells[pos[0].x-4][pos[0].y].m_piece->ableToCastle)
+            {
+                new_pos.x = pos[0].x-2;
+                new_pos.y = pos[0].y;
+                pos.push_back(new_pos);
+            }
+        }
     }
 }

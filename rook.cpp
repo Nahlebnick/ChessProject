@@ -3,8 +3,8 @@
 
 Rook::Rook(PlayerType player, QObject *parent) : Piece(player, PawnType::rook)
 {
-    imagePath = (player == PlayerType::white) ? QString("D:/Programming/QT/chess/gfx/white_rook.png") :
-                    QString("D:/Programming/QT/chess/gfx/nigga_rook.png");
+    imagePath = (player == PlayerType::white) ? QString("C:/Programming/ChessProject/gfx/white_rook.png") :
+                    QString("C:/Programming/ChessProject/gfx/nigga_rook.png");
     ableToCastle = true;
 }
 

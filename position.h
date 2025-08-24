@@ -2,13 +2,10 @@
 #define POSITION_H
 struct Position
 {
-    int x, y;
+    int x = 0, y = 0; // Значения по умолчанию
+    Position() = default; // Явно разрешаем конструктор по умолчанию
     Position(int r_x, int r_y) : x(r_x), y(r_y) {}
-    //friend bool operator==(const Position&, const Position&);
 };
 #endif // POSITION_H
 
-/*bool operator==(const Position& pos1, const Position& pos2)
-{
-    return (pos1.x == pos2.x && pos1.y == pos2.y);
-}*/
+
